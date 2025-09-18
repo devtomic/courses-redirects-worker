@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "courses-redirects-worker",
+  "main": "src/index.js",
+  "compatibility_date": "2025-09-18",
+  "observability": {
+    "enabled": true
+  },
+  "routes": [
+    {
+      "pattern": "courses.m.academy/*",
+      "zone_name": "m.academy"
+    }
+  ]
+}
