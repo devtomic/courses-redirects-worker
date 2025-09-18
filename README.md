@@ -9,6 +9,7 @@ The worker ONLY intercepts and redirects URLs for migrated courses. All other tr
 ### Redirected URLs (only for migrated courses):
 - `/courses/{courseId}/lectures/{lessonId}` → `/lessons/{lessonSlug}/`
 - `/courses/{courseSlug}/lectures/{lessonId}` → `/lessons/{lessonSlug}/`
+- `/courses/enrolled/{courseId}` → `/courses/{courseSlug}/start/`
 - `/courses/{courseId}` → `/courses/{courseSlug}/start/`
 - `/courses/{courseSlug}` → `/courses/{courseSlug}/start/`
 

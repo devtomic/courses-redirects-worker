@@ -24,10 +24,12 @@ export default {
     // ONLY handle specific redirect patterns, let everything else pass through
     // Pattern 1: /courses/{courseId}/lectures/{lessonId}
     // Pattern 2: /courses/{courseSlug}/lectures/{lessonId}
-    // Pattern 3: /courses/{courseId} (ONLY if it's a known migrated course)
-    // Pattern 4: /courses/{courseSlug} (ONLY if it's a known migrated course)
+    // Pattern 3: /courses/enrolled/{courseId}
+    // Pattern 4: /courses/{courseId} (ONLY if it's a known migrated course)
+    // Pattern 5: /courses/{courseSlug} (ONLY if it's a known migrated course)
 
     const courseLectureMatch = pathname.match(/^\/courses\/([^\/]+)\/lectures\/(\d+)\/?$/);
+    const courseEnrolledMatch = pathname.match(/^\/courses\/enrolled\/([^\/]+)\/?$/);
     const courseOnlyMatch = pathname.match(/^\/courses\/([^\/]+)\/?$/);
 
     let redirectUrl = null;
@@ -57,6 +59,23 @@ export default {
       } else {
         console.log(`Course module not found for: ${courseIdentifier} - passing through`);
         // Course not in our redirect list, pass through to origin
+        return fetch(request);
+      }
+    } else if (courseEnrolledMatch) {
+      // This is an enrolled URL - redirect if it's a known migrated course
+      const courseIdentifier = courseEnrolledMatch[1];
+
+      console.log(`Course enrolled URL for: ${courseIdentifier}`);
+
+      // Get the appropriate course module
+      const courseModule = courseModules[courseIdentifier];
+
+      if (courseModule && courseModule.courseRedirects) {
+        // This is a migrated course, redirect to its start page
+        redirectUrl = courseModule.courseRedirects[courseIdentifier];
+      } else {
+        console.log(`Course ${courseIdentifier} not migrated - passing through to origin`);
+        // Course not migrated, pass through to origin
         return fetch(request);
       }
     } else if (courseOnlyMatch) {

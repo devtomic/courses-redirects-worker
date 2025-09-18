@@ -27,6 +27,12 @@ const testUrls = [
     expected: 'https://m.academy/courses/magento-2-coding-jumpstart/start/',
     behavior: 'redirect'
   },
+  // Test enrolled URL with course ID
+  {
+    input: 'https://courses.m.academy/courses/enrolled/2184079',
+    expected: 'https://m.academy/courses/magento-2-coding-jumpstart/start/',
+    behavior: 'redirect'
+  },
   // Test last lesson
   {
     input: 'https://courses.m.academy/courses/2184079/lectures/49662460',
